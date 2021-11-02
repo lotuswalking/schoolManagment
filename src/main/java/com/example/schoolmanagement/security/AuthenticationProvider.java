@@ -1,6 +1,6 @@
-package com.example.schoolmanagment.security;
+package com.example.schoolmanagement.security;
 
-import com.example.schoolmanagment.Services.UserService;
+import com.example.schoolmanagement.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

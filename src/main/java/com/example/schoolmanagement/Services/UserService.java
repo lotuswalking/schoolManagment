@@ -1,16 +1,17 @@
-package com.example.schoolmanagment.Services;
+package com.example.schoolmanagement.Services;
 
-import com.example.schoolmanagment.entity.User;
-import com.example.schoolmanagment.repo.UserRepository;
+import com.example.schoolmanagement.entity.Role;
+import com.example.schoolmanagement.entity.User;
+import com.example.schoolmanagement.repo.RoleRepository;
+import com.example.schoolmanagement.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 @Service
 public class UserService implements UserDetailsService {
@@ -18,6 +19,27 @@ public class UserService implements UserDetailsService {
     private Map<String, String> userNameByLowerCase;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private RoleRepository roleRepository;
+
+    public void addRole(String roleName) {
+        if(roleRepository.findByRoleName(roleName)==null) {
+            Role role = new Role(roleName);
+            roleRepository.save(role);
+        }
+    }
+    public void addUser(String username) {
+        if(userRepository.findByUsername(username) ==null) {
+            User user = new User();
+            user.setUsername(username);
+            user.setActiveFlag(true);
+            user.setAuthorized(true);
+            user.setEffectiveData(LocalDate.now());
+            user.setExpiryDate(LocalDate.now().plusYears(1));
+
+        }
+    }
+
     public  void populateUsers() {
         Map<String, User> userList = new HashMap<>();
         userRepository.findAll()

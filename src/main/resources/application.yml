@@ -1,8 +1,10 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:schooldb
-    driver-class-name: org.h2.Driver
-    username: sa
-    password: password
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/schooldb
+    username: root
+    password: 123456
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+
