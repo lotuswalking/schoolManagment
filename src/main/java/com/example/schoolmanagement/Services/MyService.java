@@ -1,9 +1,11 @@
 package com.example.schoolmanagement.Services;
 
 import com.example.schoolmanagement.entity.Role;
+import com.example.schoolmanagement.entity.Student;
 import com.example.schoolmanagement.entity.User;
 import com.example.schoolmanagement.repo.GroupRepository;
 import com.example.schoolmanagement.repo.RoleRepository;
+import com.example.schoolmanagement.repo.StudentRepository;
 import com.example.schoolmanagement.repo.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +23,20 @@ public class MyService {
     @Autowired
     private GroupRepository groupRepository;
 
+    @Autowired
+    private StudentRepository studentRepository;
+
     public void addRole(String roleName) {
         if (roleRepository.findByRoleName(roleName) == null) {
             Role role = new Role(roleName);
             roleRepository.save(role);
+        }
+    }
+
+    public void  addStudents(String firstName,String lastName, String email) {
+        if(studentRepository.findByEmail(email) == null) {
+            Student student = new Student(firstName,lastName,email);
+            studentRepository.save(student);
         }
     }
 
@@ -40,6 +52,7 @@ public class MyService {
 
         }
     }
+
     public void addGroup(String groupname) {
         if (groupRepository.findByGroupName(groupname) == null) {
             User user = new User();
@@ -51,11 +64,15 @@ public class MyService {
 
         }
     }
+
     public void addRoleToUser(String username, String rolename) {
         User user = userRepository.findByUsername(username);
         Role role = roleRepository.findByRoleName(rolename);
-        user.getRoles().add(role);
-        userRepository.save(user);
+        if (!user.getRoles().contains(role)) {
+            user.getRoles().add(role);
+            userRepository.save(user);
+        }
+
     }
 
 

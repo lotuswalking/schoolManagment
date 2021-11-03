@@ -37,15 +37,15 @@ public class User implements UserDetails {
     @ManyToMany(fetch = FetchType.LAZY)
     private List<UserMembership> userMemberships = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name="USER_GROUP",
             joinColumns = @JoinColumn(name="user_id"),
             inverseJoinColumns = @JoinColumn(name="group_id")
     )
-    private List<Group> group;
+    private List<Group> groups= new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinColumn(name="user_id", referencedColumnName = "role_id")
     private List<Role> roles = new ArrayList<>();
 
