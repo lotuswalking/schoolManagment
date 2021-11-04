@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+## Ignore application.yml to avoid database update in 2 dev environment
+/src/main/application.yml

@@ -28,17 +28,6 @@ public class UserService implements UserDetailsService {
             roleRepository.save(role);
         }
     }
-    public void addUser(String username) {
-        if(userRepository.findByUsername(username) ==null) {
-            User user = new User();
-            user.setUsername(username);
-            user.setActiveFlag(true);
-            user.setAuthorized(true);
-            user.setEffectiveData(LocalDate.now());
-            user.setExpiryDate(LocalDate.now().plusYears(1));
-
-        }
-    }
 
     public  void populateUsers() {
         Map<String, User> userList = new HashMap<>();
@@ -68,12 +57,6 @@ public class UserService implements UserDetailsService {
             throw  new UsernameNotFoundException("Could not find user.");
         }
         return user;
-//        if(users.containsKey(s)) {
-//            user = users.get(s);
-//        }else {
-//            throw  new UsernameNotFoundException("Could not find user.");
-//        }
-//        return user;
     }
     public boolean isValidCredentials(String username, String password) {
         boolean correct = false;

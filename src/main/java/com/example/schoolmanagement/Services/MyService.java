@@ -67,6 +67,8 @@ public class MyService {
             groupPrivilege.setGroupPrivilegeId(id);
             groupPrivilege.setRole(role);
             groupPrivilege.setActiveFlag(true);
+            groupPrivilege.setEffectiveDate(LocalDate.now());
+            groupPrivilege.setExpiryDate(LocalDate.now().plusMonths(6));
             groupPrivilege.setGroup(group);
             groupPrivilegeRepository.save(groupPrivilege);
         }
@@ -81,6 +83,8 @@ public class MyService {
             userMembership.setUser(user);
             userMembership.setGroup(group);
             userMembership.setActiveFlag(true);
+            userMembership.setEffectiveDate(LocalDate.now());
+            userMembership.setExpiryDate(LocalDate.now().plusMonths(6));
             userMembershipRepository.save(userMembership);
         }
     }
