@@ -1,48 +1,54 @@
 package com.example.schoolmanagement.Services;
 
-import com.example.schoolmanagement.entity.Role;
-import com.example.schoolmanagement.entity.Student;
-import com.example.schoolmanagement.entity.User;
-import com.example.schoolmanagement.repo.GroupRepository;
-import com.example.schoolmanagement.repo.RoleRepository;
-import com.example.schoolmanagement.repo.StudentRepository;
-import com.example.schoolmanagement.repo.UserRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.schoolmanagement.entity.*;
+import com.example.schoolmanagement.repo.*;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class MyService {
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private RoleRepository roleRepository;
-    @Autowired
-    private GroupRepository groupRepository;
 
-    @Autowired
-    private StudentRepository studentRepository;
+    private final UserRepository userRepository;
 
-    public void addRole(String roleName) {
-        if (roleRepository.findByRoleName(roleName) == null) {
+    private final RoleRepository roleRepository;
+
+
+    private final GroupRepository groupRepository;
+
+
+    private final UserMembershipRepository userMembershipRepository;
+
+
+    private final GroupPrivilegeRepository groupPrivilegeRepository;
+
+
+    private final StudentRepository studentRepository;
+
+    public void addRole(Long id,String roleName) {
+        if (!roleRepository.existsById(id)) {
             Role role = new Role(roleName);
+            role.setRoleId(id);
             roleRepository.save(role);
         }
     }
 
     public void  addStudents(String firstName,String lastName, String email) {
         if(studentRepository.findByEmail(email) == null) {
-            Student student = new Student(firstName,lastName,email);
+            Student student = new Student();
+            student.setFirstName(firstName);
+            student.setLastName(lastName);
+            student.setEmail(email);
             studentRepository.save(student);
         }
     }
 
-    public void addUser(String username) {
-        if (userRepository.findByUsername(username) == null) {
+    public void addUser(Long id,String username) {
+        if (!userRepository.existsById(id)) {
             User user = new User();
+            user.setUserId(id);
             user.setUsername(username);
             user.setActiveFlag(true);
             user.setAuthorized(true);
@@ -52,28 +58,40 @@ public class MyService {
 
         }
     }
+    public void mapGroupToRole(Long id, String groupName,String roleName) {
 
-    public void addGroup(String groupname) {
-        if (groupRepository.findByGroupName(groupname) == null) {
-            User user = new User();
-            user.setUsername(groupname);
-            user.setActiveFlag(true);
-            user.setAuthorized(true);
-            user.setEffectiveData(LocalDate.now());
-            user.setExpiryDate(LocalDate.now().plusYears(1));
-
-        }
-    }
-
-    public void addRoleToUser(String username, String rolename) {
-        User user = userRepository.findByUsername(username);
-        Role role = roleRepository.findByRoleName(rolename);
-        if (!user.getRoles().contains(role)) {
-            user.getRoles().add(role);
-            userRepository.save(user);
+        if (!groupPrivilegeRepository.existsById(id) ) {
+            Group group = groupRepository.findByGroupName(groupName);
+            Role role = roleRepository.findByRoleName(roleName);
+            GroupPrivilege groupPrivilege = new GroupPrivilege();
+            groupPrivilege.setGroupPrivilegeId(id);
+            groupPrivilege.setRole(role);
+            groupPrivilege.setActiveFlag(true);
+            groupPrivilege.setGroup(group);
+            groupPrivilegeRepository.save(groupPrivilege);
         }
 
     }
+    public void mapUserToGroup(Long id,String username, String groupName) {
+        if (!userMembershipRepository.existsById(id) ) {
+            Group group = groupRepository.findByGroupName(groupName);
+            User user = userRepository.findByUsername(username);
+            UserMembership userMembership = new UserMembership();
+            userMembership.setUserMembershipId(id);
+            userMembership.setUser(user);
+            userMembership.setGroup(group);
+            userMembership.setActiveFlag(true);
+            userMembershipRepository.save(userMembership);
+        }
+    }
 
+    public void addGroup(Long id,String groupName) {
+        if (!groupRepository.existsById(id) ) {
+            Group group = new Group();
+            group.setGroupId(id);
+            group.setGroupName(groupName);
+            groupRepository.save(group);
+        }
+    }
+    }
 
-}

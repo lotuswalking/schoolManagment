@@ -1,12 +1,12 @@
 spring:
   datasource:
-#    url: jdbc:mysql://${MYSQL_HOST:localhost}:3307/schooldb
-    url: jdbc:h2:mem:schoolDb
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/schooldb
+#    url: jdbc:h2:mem:schoolDb
     username: root
     password: 123456
   jpa:
     show-sql: false
     hibernate:
       ddl-auto: update
-    database-platform: org.hibernate.dialect.H2Dialect
+#    database-platform: org.hibernate.dialect.H2Dialect
 
