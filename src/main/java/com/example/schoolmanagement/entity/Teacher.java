@@ -5,14 +5,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="STUDENTS")
-public class Student {
-
+@Table(name ="teachers")
+public class Teacher{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -26,7 +24,6 @@ public class Student {
     private String email;
 
     @ManyToOne
-    @JoinColumn(name = "class_id")
+    @JoinColumn(name="choolclass_id")
     private SchoolClass schoolClass;
-
 }
