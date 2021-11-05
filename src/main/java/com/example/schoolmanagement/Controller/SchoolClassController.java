@@ -32,10 +32,10 @@ public class SchoolClassController {
     public void populateModel(ModelMap model, Authentication authentication) {
         User user;
         user = model.containsAttribute("auth") ? (User) model.get("user") : userRepository.findByUsername(authentication.getName());
-        Student student;
-        student = model.containsAttribute("student") ? (Student) model.get("student") : new Student();
+        SchoolClass schoolClass;
+        schoolClass = model.containsAttribute("class") ? (SchoolClass) model.get("class") : new SchoolClass();
         model.addAttribute("auth", user);
-        model.addAttribute("student", student);
+        model.addAttribute("class", schoolClass);
     }
     @GetMapping("/classes")
     public String ListClasses(Model model) {
