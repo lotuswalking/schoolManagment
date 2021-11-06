@@ -1,19 +1,15 @@
 package com.example.schoolmanagement.Controller;
 
-import com.example.schoolmanagement.Services.UserService;
-import com.example.schoolmanagement.entity.Student;
-import com.example.schoolmanagement.entity.User;
-import com.example.schoolmanagement.repo.StudentRepository;
-import com.example.schoolmanagement.repo.UserRepository;
+import com.example.schoolmanagement.jpa.school.entity.Student;
+import com.example.schoolmanagement.jpa.system.entity.User;
+import com.example.schoolmanagement.jpa.school.StudentRepository;
+import com.example.schoolmanagement.jpa.system.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 
 @Controller
@@ -26,11 +22,9 @@ public class StudentController {
 
     @ModelAttribute
     public void populateModel(ModelMap model, Authentication authentication) {
-        User user;
-        user = model.containsAttribute("auth") ? (User) model.get("user") : userRepository.findByUsername(authentication.getName());
+
         Student student;
         student = model.containsAttribute("student") ? (Student) model.get("student") : new Student();
-        model.addAttribute("auth", user);
         model.addAttribute("student", student);
     }
 

@@ -1,12 +1,13 @@
 package com.example.schoolmanagement.Controller;
 
-import com.example.schoolmanagement.entity.SchoolClass;
-import com.example.schoolmanagement.entity.Student;
-import com.example.schoolmanagement.entity.User;
-import com.example.schoolmanagement.repo.SchoolClassRepository;
-import com.example.schoolmanagement.repo.StudentRepository;
-import com.example.schoolmanagement.repo.TeacherRepository;
-import com.example.schoolmanagement.repo.UserRepository;
+import com.example.schoolmanagement.jpa.school.entity.SchoolClass;
+import com.example.schoolmanagement.jpa.school.entity.Student;
+import com.example.schoolmanagement.jpa.school.entity.Teacher;
+import com.example.schoolmanagement.jpa.system.entity.User;
+import com.example.schoolmanagement.jpa.school.SchoolClassRepository;
+import com.example.schoolmanagement.jpa.school.StudentRepository;
+import com.example.schoolmanagement.jpa.school.TeacherRepository;
+import com.example.schoolmanagement.jpa.system.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -30,11 +31,9 @@ public class SchoolClassController {
 
     @ModelAttribute
     public void populateModel(ModelMap model, Authentication authentication) {
-        User user;
-        user = model.containsAttribute("auth") ? (User) model.get("user") : userRepository.findByUsername(authentication.getName());
+
         SchoolClass schoolClass;
         schoolClass = model.containsAttribute("class") ? (SchoolClass) model.get("class") : new SchoolClass();
-        model.addAttribute("auth", user);
         model.addAttribute("class", schoolClass);
     }
     @GetMapping("/classes")
@@ -45,6 +44,10 @@ public class SchoolClassController {
     }
     @GetMapping("/classes/new")
     public String newOrUpdateClass(Model model) {
+        List<Student> students = studentRepository.findAll();
+        List<Teacher> teachers = teachacherRepository.findAll();
+        model.addAttribute("students",students);
+        model.addAttribute("teachers",teachers);
         return "class";
     }
 }
