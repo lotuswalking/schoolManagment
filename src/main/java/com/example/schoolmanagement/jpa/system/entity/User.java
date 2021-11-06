@@ -1,4 +1,4 @@
-package com.example.schoolmanagement.entity;
+package com.example.schoolmanagement.jpa.system.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Entity
 @Table(name = "Users")

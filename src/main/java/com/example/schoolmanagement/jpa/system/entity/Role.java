@@ -1,11 +1,9 @@
-package com.example.schoolmanagement.entity;
+package com.example.schoolmanagement.jpa.system.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Data
