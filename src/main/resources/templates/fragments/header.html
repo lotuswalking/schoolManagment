@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <th:block th:fragment="header">
+        <meta charset="utf-8">
+        <title>Student Management System</title>
+        <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+              rel="stylesheet" />
+    </th:block>
+</head>
+<body>
+<h1>Welcome!</h1>
+<th:block th:fragment="nav">
+    <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+        <!-- Brand -->
+        <a class="navbar-brand" href="#">Student Management System</a>
+
+        <!-- Toggler/collapsibe Button -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar links -->
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/students}">Student Management</a>
+                </li>
+                <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
+                    <a class="nav-link" th:href="@{/classes}">Class Management</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/teachers}">Teacher Management</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto nav-flex-icons">
+                <li class="nav-item"> <span class="navbar-text" th:text="'Welcome: '+${#authentication.name}"></span></li>
+                <li class="nav-item"><span class="nav-link" th:text="'Your are:  '+ ${#authentication.authorities}"></span></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        <span class="material-icons">person</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-default"
+                         aria-labelledby="navbarDropdownMenuLink-333">
+                        <a class="dropdown-item" th:href="@{/logout}">Logout</a>
+                        <a class="dropdown-item" th:href="@{/}">Home Page</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</th:block>
+<p>Click <a th:href="@{/students}">here</a> to see a greeting.</p>
+</body>
+</html>

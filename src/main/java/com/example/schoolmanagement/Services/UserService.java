@@ -1,16 +1,15 @@
 package com.example.schoolmanagement.Services;
 
-import com.example.schoolmanagement.entity.Role;
-import com.example.schoolmanagement.entity.User;
-import com.example.schoolmanagement.repo.RoleRepository;
-import com.example.schoolmanagement.repo.UserRepository;
+import com.example.schoolmanagement.jpa.system.entity.Role;
+import com.example.schoolmanagement.jpa.system.entity.User;
+import com.example.schoolmanagement.jpa.system.RoleRepository;
+import com.example.schoolmanagement.jpa.system.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 @Service
@@ -26,17 +25,6 @@ public class UserService implements UserDetailsService {
         if(roleRepository.findByRoleName(roleName)==null) {
             Role role = new Role(roleName);
             roleRepository.save(role);
-        }
-    }
-    public void addUser(String username) {
-        if(userRepository.findByUsername(username) ==null) {
-            User user = new User();
-            user.setUsername(username);
-            user.setActiveFlag(true);
-            user.setAuthorized(true);
-            user.setEffectiveData(LocalDate.now());
-            user.setExpiryDate(LocalDate.now().plusYears(1));
-
         }
     }
 
@@ -68,12 +56,6 @@ public class UserService implements UserDetailsService {
             throw  new UsernameNotFoundException("Could not find user.");
         }
         return user;
-//        if(users.containsKey(s)) {
-//            user = users.get(s);
-//        }else {
-//            throw  new UsernameNotFoundException("Could not find user.");
-//        }
-//        return user;
     }
     public boolean isValidCredentials(String username, String password) {
         boolean correct = false;

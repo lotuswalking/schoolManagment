@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/header::header"/>
+</head>
+<body>
+<nav th:replace="fragments/header :: nav"/>
+
+<div class="container">
+    <div class="row">
+        <h1>Update Teacher </h1>
+    </div>
+</div>
+
+<form th:action="@{'/teachers/save'}" th:object="${teacher}" method="post">
+    <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input type="text" class="form-control" th:field="*{firstName}" id="firstName"  >
+        <label for="lastName">Last Name</label>
+        <input type="text" class="form-control" th:field="*{lastName}" id="lastName"  >
+        <label for="email">Email address</label>
+        <input type="email" class="form-control"  th:field="*{email}" id="email">
+        <input type="hidden" name="curMode" id="curMode">
+        <input type="hidden" name="id" th:field="*{id}">
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a type="button" class="btn btn-secondary" th:href="@{/teachers}">Cancel</a>
+</form>
+<div th:replace="fragments/footer ::footer"/>
+</body>
+</html>

@@ -1,70 +1,76 @@
-package com.example.schoolmanagement.entity;
+package com.example.schoolmanagement.jpa.system.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import javax.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity
-@Table(name="Users")
+@Table(name = "Users")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="user_id")
-    private  Long userId;
-    @Column(name="username")
+    @Column(name = "user_id")
+    private Long userId;
+    @Column(name = "username")
     private String username;
     private boolean activeFlag;
-    @Column(name="effectiveData")
+    @Column(name = "effectiveData")
     private LocalDate effectiveData;
-    @Column(name="expiryDate")
+    @Column(name = "expiryDate")
     private LocalDate expiryDate;
 
     private boolean isAuthorized;
-    @ManyToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
     private List<UserMembership> userMemberships = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(
-            name="USER_GROUP",
-            joinColumns = @JoinColumn(name="user_id"),
-            inverseJoinColumns = @JoinColumn(name="group_id")
-    )
-    private List<Group> group;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id", referencedColumnName = "role_id")
-    private List<Role> roles = new ArrayList<>();
-
+    @Transactional
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
-        if(isAuthorized()) {
-            authorities = roles.stream()
-                    .map(this::mapRoleToAuthority)
-                    .collect(Collectors.toList());
+        if (isAuthorized()) {
+            try {
+
+                List<Group> groups =  userMemberships.stream().filter(m -> m.getActiveFlag()==true)
+                        .map(UserMembership::getGroup).collect(Collectors.toList());
+                authorities = userMemberships.stream().filter(m -> m.getActiveFlag()==true)
+                        .map(UserMembership::getGroup)
+                        .map(Group::getGroupPrivilege)
+                        .flatMap(Collection::stream).filter(gp -> gp.getActiveFlag()==true)
+                        .map(GroupPrivilege::getRole)
+//                    .flatMap(Collection::stream)
+                        .map(this::mapRoleToAuthority)
+                        .collect(Collectors.toList());
+            } catch (Exception e) {
+                throw e;
+            }
+
+
         }
         return authorities;
     }
+
     private GrantedAuthority mapRoleToAuthority(Role role) {
+
         return new SimpleGrantedAuthority(role.getRoleName());
     }
 
     @Override
     public String getPassword() {
-        return "123456";
+        return "xsw2!QAZzaq1@WSX";
     }
 
     @Override
