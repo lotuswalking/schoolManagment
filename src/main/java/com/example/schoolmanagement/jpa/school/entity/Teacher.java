@@ -1,4 +1,4 @@
-package com.example.schoolmanagement.entity;
+package com.example.schoolmanagement.jpa.school.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

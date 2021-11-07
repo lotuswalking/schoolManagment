@@ -1,4 +1,4 @@
-package com.example.schoolmanagement.entity;
+package com.example.schoolmanagement.jpa.system.entity;
 
 import lombok.Data;
 

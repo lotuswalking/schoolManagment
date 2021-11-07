@@ -1,7 +1,9 @@
 package com.example.schoolmanagement.Services;
 
-import com.example.schoolmanagement.entity.*;
-import com.example.schoolmanagement.repo.*;
+import com.example.schoolmanagement.jpa.school.StudentRepository;
+import com.example.schoolmanagement.jpa.school.entity.Student;
+import com.example.schoolmanagement.jpa.system.*;
+import com.example.schoolmanagement.jpa.system.entity.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,11 +1,11 @@
 package com.example.schoolmanagement.Controller;
 
 
-import com.example.schoolmanagement.entity.Teacher;
-import com.example.schoolmanagement.entity.User;
+import com.example.schoolmanagement.jpa.school.entity.Teacher;
+import com.example.schoolmanagement.jpa.system.entity.User;
 
-import com.example.schoolmanagement.repo.TeacherRepository;
-import com.example.schoolmanagement.repo.UserRepository;
+import com.example.schoolmanagement.jpa.school.TeacherRepository;
+import com.example.schoolmanagement.jpa.system.UserRepository;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -25,12 +25,7 @@ public class TeacherController {
 
     @ModelAttribute
     public void populateModel(ModelMap model, Authentication authentication) {
-        User user;
-        user = model.containsAttribute("auth") ? (User) model.get("auth") : userRepository.findByUsername(authentication.getName());
-//        Teacher teacher;
-//        teacher = model.containsAttribute("teacher") ? (Teacher) model.get("teacher") : new Teacher();
-        model.addAttribute("auth", user);
-//        model.addAttribute("teacher", teacher);
+
     }
     @GetMapping("/teachers")
     public String Listteachers(Model model) {

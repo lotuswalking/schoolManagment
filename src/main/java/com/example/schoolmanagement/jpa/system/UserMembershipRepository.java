@@ -1,6 +1,6 @@
-package com.example.schoolmanagement.repo;
+package com.example.schoolmanagement.jpa.system;
 
-import com.example.schoolmanagement.entity.UserMembership;
+import com.example.schoolmanagement.jpa.system.entity.UserMembership;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

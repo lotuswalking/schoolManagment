@@ -7,5 +7,9 @@
 <h1>Welcome!</h1>
 
 <p>Click <a th:href="@{/students}">here</a> to see a greeting.</p>
+<h1>Below is the information had been Authenticated</h1>
+<div sec:authorize="isAuthenticated()">you had been signed in as User:<span th:text="${#authentication.name}"></span> </div>
+<div sec:authorize="isAuthenticated()">you Roles are: <span th:text="${#authentication.authorities}"></span></div>
+
 </body>
 </html>
