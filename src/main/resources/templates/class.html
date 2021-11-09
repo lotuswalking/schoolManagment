@@ -12,10 +12,32 @@
     </div>
 </div>
 
+
 <form th:action="@{'/classes/save'}" th:object="${class}" method="post">
     <div class="form-group">
-        <label for="classname">First Name</label>
+        <label for="classname">Class Name</label>
         <input type="text" class="form-control" th:field="*{classname}" id="classname"  >
+        <div class="row g-3">
+            <div class="col-md-5">
+                <div>All User List</div>
+                <select  id="selectedStudent" class="form-select w-80" multiple aria-label="multiple select example">
+                    <option th:each="student :${students}" class="form-class" th:value="${student.id}">
+                        <span th:text="${student.firstName}"></span>
+                        <span th:text="${student.lastName}"></span>
+                    </option>
+
+                </select>
+            </div>
+            <div class="col-md-1">
+                <a href="#">
+                    <i class="bi bi-arrow-right"></i>
+                    Add</a>
+            </div>
+            <div class="col-md-5">
+                <select id="selectedStudent" class="form-select w-80" multiple aria-label="multiple select example"></select>
+            </div>
+        </div>
+
 
         <input type="hidden" name="curMode" id="curMode">
         <input type="hidden" name="id" th:field="*{id}">

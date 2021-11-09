@@ -1,6 +1,8 @@
 package com.example.schoolmanagement.Controller;
 
 import com.example.schoolmanagement.jpa.school.entity.SchoolClass;
+import com.example.schoolmanagement.jpa.school.entity.Student;
+import com.example.schoolmanagement.jpa.school.entity.Teacher;
 import com.example.schoolmanagement.jpa.system.entity.User;
 import com.example.schoolmanagement.jpa.school.SchoolClassRepository;
 import com.example.schoolmanagement.jpa.school.StudentRepository;
@@ -42,6 +44,10 @@ public class SchoolClassController {
     }
     @GetMapping("/classes/new")
     public String newOrUpdateClass(Model model) {
+        List<Student> students = studentRepository.findAll();
+        List<Teacher> teachers = teachacherRepository.findAll();
+        model.addAttribute("students",students);
+        model.addAttribute("teachers",teachers);
         return "class";
     }
 }
