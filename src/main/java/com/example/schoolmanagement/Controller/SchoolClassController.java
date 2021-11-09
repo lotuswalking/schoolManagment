@@ -1,8 +1,6 @@
 package com.example.schoolmanagement.Controller;
 
 import com.example.schoolmanagement.jpa.school.entity.SchoolClass;
-import com.example.schoolmanagement.jpa.school.entity.Student;
-import com.example.schoolmanagement.jpa.school.entity.Teacher;
 import com.example.schoolmanagement.jpa.system.entity.User;
 import com.example.schoolmanagement.jpa.school.SchoolClassRepository;
 import com.example.schoolmanagement.jpa.school.StudentRepository;
