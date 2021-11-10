@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GitUser {
+    private Long id;
     private String login;
     private String node_id;
     private String avatar_url;

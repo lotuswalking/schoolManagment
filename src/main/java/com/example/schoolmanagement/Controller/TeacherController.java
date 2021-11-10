@@ -56,7 +56,7 @@ public class TeacherController {
         teacherRepository.save(teacher);
         return "redirect:/teachers";
     }
-    @DeleteMapping(value = "/teachers/remove/{id}")
+    @GetMapping(value = "/teachers/remove/{id}")
     public String removeteacher(@PathVariable Long id) {
         Teacher teacher = teacherRepository.getTeacherById(id);
         teacherRepository.delete(teacher);

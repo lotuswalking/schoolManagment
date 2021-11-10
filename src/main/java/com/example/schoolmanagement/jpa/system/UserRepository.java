@@ -10,5 +10,5 @@ public interface UserRepository extends JpaRepository<User,Long> {
     User findByUsername(String username);
 
     @Override
-    boolean existsById(Long aLong);
+    boolean existsById(Long id);
 }
