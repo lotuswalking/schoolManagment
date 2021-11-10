@@ -4,6 +4,7 @@ import com.example.schoolmanagement.jpa.school.entity.Student;
 import com.example.schoolmanagement.jpa.system.entity.User;
 import com.example.schoolmanagement.jpa.school.StudentRepository;
 import com.example.schoolmanagement.jpa.system.UserRepository;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -11,7 +12,9 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
 
+@Log
 @Controller
 public class StudentController {
     //    private UserService userService;
@@ -44,10 +47,13 @@ public class StudentController {
 
     @GetMapping("/students/edit/{id}")
     public String updateStudent(Model mode, @PathVariable Long id) {
-        Student student = studentRepository.getById(id);
+
+        Student student = studentRepository.getStudentById(id);
         mode.addAttribute("student", student);
         mode.addAttribute("curMode", "edit");
         return "student";
+
+
     }
 
     @PostMapping(value = "/students/save")
@@ -59,7 +65,7 @@ public class StudentController {
     }
     @GetMapping(value = "/students/remove/{id}")
     public String removeStudent(@PathVariable Long id) {
-        Student student = studentRepository.getById(id);
+        Student student = studentRepository.getStudentById(id);
         studentRepository.delete(student);
         return "redirect:/students";
     }

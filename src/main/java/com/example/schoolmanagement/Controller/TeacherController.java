@@ -43,7 +43,7 @@ public class TeacherController {
 
     @GetMapping("/teachers/edit/{id}")
     public String updateteacher(Model mode, @PathVariable Long id) {
-        Teacher teacher = teacherRepository.getById(id);
+        Teacher teacher = teacherRepository.getTeacherById(id);
         mode.addAttribute("teacher", teacher);
         mode.addAttribute("curMode", "edit");
         return "teacher";
@@ -58,7 +58,7 @@ public class TeacherController {
     }
     @GetMapping(value = "/teachers/remove/{id}")
     public String removeteacher(@PathVariable Long id) {
-        Teacher teacher = teacherRepository.getById(id);
+        Teacher teacher = teacherRepository.getTeacherById(id);
         teacherRepository.delete(teacher);
         return "redirect:/teachers";
     }

@@ -1,6 +1,7 @@
 package com.example.schoolmanagement.Controller;
 
 import com.example.schoolmanagement.jpa.RestEntity.GitUser;
+import com.example.schoolmanagement.util.ApiClient;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,23 +20,11 @@ import java.util.stream.Collectors;
 @Log
 public class MyRestController {
     private final String baseUrl = "https://api.github.com/users";
-    private RestTemplate restTemplate = new RestTemplate();
     @GetMapping("/gitusers")
     public List<GitUser> listGitUsers() throws JsonProcessingException {
-        List<GitUser> gitUsers = exchange(baseUrl,GitUser.class);
+        List<GitUser> gitUsers = ApiClient.exchange(baseUrl,GitUser.class);
         return  gitUsers;
 
     }
-    private List<GitUser> exchange(String url,  Class responseType) {
-        ResponseEntity<Object[]> responseEntity =restTemplate.getForEntity(url,Object[].class);
-        Object[] objects = responseEntity.getBody();
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        mapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT,true);
-        mapper.configure(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE,false);
-       return Arrays.stream(objects)
-                .map(object -> mapper.convertValue(object, GitUser.class))
-                .collect(Collectors.toList());
-//        return  gitUsers;
-    }
+
 }

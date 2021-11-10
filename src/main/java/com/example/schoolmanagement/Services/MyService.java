@@ -1,7 +1,9 @@
 package com.example.schoolmanagement.Services;
 
 import com.example.schoolmanagement.jpa.school.StudentRepository;
+import com.example.schoolmanagement.jpa.school.TeacherRepository;
 import com.example.schoolmanagement.jpa.school.entity.Student;
+import com.example.schoolmanagement.jpa.school.entity.Teacher;
 import com.example.schoolmanagement.jpa.system.*;
 import com.example.schoolmanagement.jpa.system.entity.*;
 import lombok.AllArgsConstructor;
@@ -29,6 +31,8 @@ public class MyService {
 
     private final StudentRepository studentRepository;
 
+    private final TeacherRepository teacherRepository;
+
 
 
     public void addRole(Long id,String roleName) {
@@ -46,6 +50,16 @@ public class MyService {
             student.setLastName(lastName);
             student.setEmail(email);
             studentRepository.save(student);
+        }
+    }
+    public void addStudent(Student student) {
+        if(studentRepository.existsById(student.getId())) {
+            studentRepository.save(student);
+        }
+    }
+    public void addTeacher(Teacher teacher) {
+        if(!teacherRepository.existsById(teacher.getId())) {
+            teacherRepository.save(teacher);
         }
     }
 
@@ -99,6 +113,16 @@ public class MyService {
             group.setGroupId(id);
             group.setGroupName(groupName);
             groupRepository.save(group);
+        }
+    }
+    public void addTeacher(Long id, String firstName, String lastName, String email) {
+        if(!teacherRepository.existsById(id)) {
+            Teacher teacher = new Teacher();
+//            teacher.setId(id);
+            teacher.setFirstName(firstName);
+            teacher.setEmail(email);
+            teacher.setLastName(lastName);
+            teacherRepository.save(teacher);
         }
     }
     }
