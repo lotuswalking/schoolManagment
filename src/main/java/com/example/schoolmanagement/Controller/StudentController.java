@@ -6,12 +6,20 @@ import com.example.schoolmanagement.jpa.school.StudentRepository;
 import com.example.schoolmanagement.jpa.system.UserRepository;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Log
@@ -22,6 +30,8 @@ public class StudentController {
     private StudentRepository studentRepository;
     @Autowired
     private UserRepository userRepository;
+    @Value("${spring.jpa.defautPageSize}")
+    private int defaultPagesize;
 
     @ModelAttribute
     public void populateModel(ModelMap model, Authentication authentication) {
@@ -30,10 +40,29 @@ public class StudentController {
         student = model.containsAttribute("student") ? (Student) model.get("student") : new Student();
         model.addAttribute("student", student);
     }
-
     @GetMapping("/students")
-    public String ListStudents(Model model) {
-        model.addAttribute("students", studentRepository.findAll());
+    public String goPagedStudent() {
+        return "redirect:/students/1/"+defaultPagesize;
+    }
+    @GetMapping("/students/{pageNo}/{pageSize}")
+    public String ListStudents(@PathVariable Map<String, String> pathVarsMap,
+                               Model model) {
+        int pageNo = (pathVarsMap.get("pageNo") == null)?1: Integer.parseInt(pathVarsMap.get("pageNo"));
+        int pageSize = (pathVarsMap.get("pageSize") == null)?defaultPagesize: Integer.parseInt(pathVarsMap.get("pageSize"));
+        Pageable pageable = PageRequest.of(pageNo-1,pageSize);
+        Page<Student> pages =  studentRepository.findAll(pageable);
+        List<Student> students = pages.getContent();
+        List<Integer> pageNums =  new ArrayList<Integer>();
+        if(pageNo > 1) pageNums.add(pageNo-1);
+        pageNums.add(pageNo);
+        if(pageNo < pages.getTotalPages()) pageNums.add(pageNo+1);
+        model.addAttribute("students",students);
+        model.addAttribute("totalPages",pages.getTotalPages());
+        model.addAttribute("currentPage",pageNo);
+        model.addAttribute("totalItems",pages.getTotalElements());
+        model.addAttribute("pageSize",pageSize);
+        model.addAttribute("pageNums",pageNums);
+
         return "students";
     }
 
