@@ -22,4 +22,4 @@
 
 ###5.使用thymeleaf security 5模块进行网页上面的用户名称已经权限组配置
 
-###6. [参考引文]([https://www.thymeleaf.org/doc/articles/springsecurity.html])
+###6. [参考引文](https://www.thymeleaf.org/doc/articles/springsecurity.html)
