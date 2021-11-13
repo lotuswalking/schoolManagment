@@ -23,3 +23,21 @@
 ###5.使用thymeleaf security 5模块进行网页上面的用户名称已经权限组配置
 
 ###6. [参考引文](https://www.thymeleaf.org/doc/articles/springsecurity.html)
+
+分页功能说明:需要传入第几页和煤业显示的条目数量.
+
+`int pageNo = (pathVarsMap.get("pageNo") == null)?1: Integer.parseInt(pathVarsMap.get("pageNo"));  //读入查询的页数
+int pageSize = (pathVarsMap.get("pageSize") == null)?defaultPagesize: Integer.parseInt(pathVarsMap.get("pageSize"));  //读出每页显示item数目
+Pageable pageable = PageRequest.of(pageNo-1,pageSize);   //定义页面查询的对象,第几页,每页显示数量
+Page<Student> pages =  studentRepository.findAll(pageable);   //找出一页数据内容
+List<Student> students = pages.getContent();    //找到需要显示再页面的对象内容
+List<Integer> pageNums =  new ArrayList<Integer>();  
+if(pageNo > 1) pageNums.add(pageNo-1);
+pageNums.add(pageNo);   
+if(pageNo < pages.getTotalPages()) pageNums.add(pageNo+1);  //如果存在的话,仅仅显示前一页,当前页与后一页  
+model.addAttribute("students",students);  //为页面提供内容数据
+model.addAttribute("totalPages",pages.getTotalPages());  //提供总页面数量
+model.addAttribute("currentPage",pageNo);  //提供当前页面编号
+model.addAttribute("totalItems",pages.getTotalElements());  //总的条目数量
+model.addAttribute("pageSize",pageSize);    //每页显示数量
+model.addAttribute("pageNums",pageNums);`   //显示页面编号清单
