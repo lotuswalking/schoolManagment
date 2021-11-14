@@ -42,4 +42,76 @@ model.addAttribute("currentPage",pageNo);  //提供当前页面编号
 model.addAttribute("totalItems",pages.getTotalElements());  //总的条目数量
 model.addAttribute("pageSize",pageSize);    //每页显示数量
 model.addAttribute("pageNums",pageNums);//显示页面编号清单
-`   
+`
+多数据库配置说明:
+`
+@Configuration
+@EnableTransactionManagement
+@EnableJpaRepositories(basePackages = "com.example.schoolmanagement.jpa.school",   //扫描repository和entity所在的包位置,好像关系不大
+entityManagerFactoryRef = "**schoolEntityManagerFactory**",     //后文中定义的数据条目的工厂
+transactionManagerRef = "**schoolTransactionManager**")     //后文中定义的事务管理器
+
+@Bean(name="**schoolDataSourceProperties**")  
+public DataSource schoolDataSource(@Qualifier("schoolDataSourceProperties") DataSourceProperties schoolDataSourceProperties)
+
+@Bean(name = "**schoolDataSource**")
+@ConfigurationProperties("school.datasource.configuration")
+public DataSource schoolDataSource(@Qualifier("schoolDataSourceProperties") DataSourceProperties schoolDataSourceProperties)
+
+private HashMap<String,Object> jpaProperties() {
+HashMap<String, Object> properties = new HashMap<>();
+properties.put("hibernate.hbm2ddl.auto", "update");
+properties.put("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+return properties;
+}
+
+private String[] packeAges() {
+return new String[]{"com.example.schoolmanagement.repo.system",
+"com.example.schoolmanagement.jpa.school.entity"};
+}
+
+@Bean(name = "**schoolEntityManagerFactory**")
+public LocalContainerEntityManagerFactoryBean schoolEntityManagerFactory(
+@Qualifier("schoolDataSource") DataSource primaryDataSource,
+EntityManagerFactoryBuilder primaryEntityManagerFactoryBuilder) {
+
+        HashMap<String, Object> properties = new HashMap<>();
+        return primaryEntityManagerFactoryBuilder
+                .dataSource(primaryDataSource)
+                .packages(**packeAges**())   //repository和entity所在的位置声明
+                .persistenceUnit("schoolDataSource")
+                .properties(jpaProperties())
+                .build();
+}
+
+@Bean(name = "**schoolTransactionManager**")  
+public PlatformTransactionManager schoolTransactionManager(
+@Qualifier("schoolEntityManagerFactory") EntityManagerFactory primaryEntityManagerFactory) {
+
+        return new JpaTransactionManager(primaryEntityManagerFactory);
+}
+
+`
+
+
+**登录认证部分.**
+`
+@Component
+public class AuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
+@Autowired
+protected UserService userService;
+
+    @Override  //如果没有里面的确认,任何密码都成为可接受的密码
+    protected void additionalAuthenticationChecks(UserDetails userDetails, UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken) throws AuthenticationException {
+        if(!userService.isValidCredentials(userDetails.getUsername(),usernamePasswordAuthenticationToken.getCredentials().toString())) {
+            throw new BadCredentialsException("User authentication faild, check logs for more information");
+        }
+    }
+
+    @Override
+    protected UserDetails retrieveUser(String s, UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken) throws AuthenticationException {
+        return userService.loadUserByUsername(s);
+    }
+}
+
+`
