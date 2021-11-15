@@ -1,5 +1,6 @@
 package com.example.schoolmanagement.Controller;
 
+import com.example.schoolmanagement.Services.PDFGeneratorService;
 import com.example.schoolmanagement.jpa.school.entity.Student;
 import com.example.schoolmanagement.jpa.system.entity.User;
 import com.example.schoolmanagement.jpa.school.StudentRepository;
@@ -17,10 +18,11 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Log
 @Controller
@@ -33,6 +35,9 @@ public class StudentController {
     @Value("${spring.jpa.defautPageSize}")
     private int defaultPagesize;
 
+    @Autowired
+    private PDFGeneratorService pdfGeneratorService;
+
     @ModelAttribute
     public void populateModel(ModelMap model, Authentication authentication) {
 
@@ -40,6 +45,22 @@ public class StudentController {
         student = model.containsAttribute("student") ? (Student) model.get("student") : new Student();
         model.addAttribute("student", student);
     }
+
+    @GetMapping("/students/printAll")
+    public void printAllToPdf(HttpServletResponse response) throws IOException {
+        response.setContentType("application/pdf");
+        DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd:hh:mm:ss");
+        String currentDateTime = dateFormat.format(new Date());
+        String headerKey = "Context-Disposition";
+        String headerValue = "attachment; filename=pdf_"+ currentDateTime + ".pdf";
+        response.setHeader(headerKey,headerValue);
+        List<Student> students = studentRepository.findAll();
+
+        pdfGeneratorService.export(response,students);
+
+        //        return "test";
+    }
+
     @GetMapping("/students")
     public String goPagedStudent() {
         return "redirect:/students/1/"+defaultPagesize;

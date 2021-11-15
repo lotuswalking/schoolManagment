@@ -14,13 +14,12 @@ public class AuthenticationProvider extends AbstractUserDetailsAuthenticationPro
     @Autowired
     protected UserService userService;
 
-    @Override
+    @Override  //如果没有里面的确认,任何密码都成为可接受的密码
     protected void additionalAuthenticationChecks(UserDetails userDetails, UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken) throws AuthenticationException {
         if(!userService.isValidCredentials(userDetails.getUsername(),usernamePasswordAuthenticationToken.getCredentials().toString())) {
             throw new BadCredentialsException("User authentication faild, check logs for more information");
         }
     }
-
 
     @Override
     protected UserDetails retrieveUser(String s, UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken) throws AuthenticationException {
