@@ -115,3 +115,14 @@ protected UserService userService;
 }
 
 `
+
+open PDF pring Data
+`
+<!-- https://mvnrepository.com/artifact/com.github.librepdf/openpdf -->
+<dependency>
+    <groupId>com.github.librepdf</groupId>
+    <artifactId>openpdf</artifactId>
+    <version>1.3.20</version>
+</dependency>
+
+`
