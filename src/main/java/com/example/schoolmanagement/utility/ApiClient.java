@@ -1,4 +1,4 @@
-package com.example.schoolmanagement.util;
+package com.example.schoolmanagement.utility;
 
 import com.example.schoolmanagement.jpa.RestEntity.GitUser;
 import com.fasterxml.jackson.databind.DeserializationFeature;

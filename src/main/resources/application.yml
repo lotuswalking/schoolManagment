@@ -17,4 +17,10 @@ school:
     password: xsw2!QAZ
 
 #    database-platform: org.hibernate.dialect.H2Dialect
+jwt:
+  secret: thisisthesecretkey
+custom:
+  config:
+    sign:
+      method: nojwt
 

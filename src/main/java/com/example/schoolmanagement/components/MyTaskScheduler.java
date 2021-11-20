@@ -1,10 +1,9 @@
 package com.example.schoolmanagement.components;
 
 import com.example.schoolmanagement.Services.MyService;
-import com.example.schoolmanagement.jpa.RestEntity.GitUser;
 import com.example.schoolmanagement.jpa.school.entity.Student;
 import com.example.schoolmanagement.jpa.school.entity.Teacher;
-import com.example.schoolmanagement.util.ApiClient;
+import com.example.schoolmanagement.utility.ApiClient;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.java.Log;
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 

@@ -53,6 +53,7 @@ public class MyService {
         }
     }
     public void addStudent(Student student) {
+        if(!studentRepository.existsById(student.getId())) {
         if (!studentRepository.existsById(student.getId())) {
             studentRepository.save(student);
         }
