@@ -27,13 +27,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         if(!signMethod.equalsIgnoreCase("jwt")) {
             http.csrf().disable();
-            http.authorizeRequests().antMatchers("/", "/home","/login","/api/login/**","/static/**","/json/**").permitAll();
+            http.authorizeRequests().antMatchers("/", "/home","/login","/api/login/**","/static/**","/json/**","/webjars/**").permitAll();
             http.authorizeRequests().anyRequest().authenticated();
             http.formLogin().defaultSuccessUrl("/students").failureForwardUrl("/home");
         }else{
             http.csrf().disable()
                     .authorizeRequests()
-                    .antMatchers("/", "/home","/login","/api/login/**","/static/**","/json/**","/authenticate").permitAll()
+                    .antMatchers("/", "/home","/login","/api/login/**","/static/**","/json/**","/authenticate","/webjars/**").permitAll()
                     .anyRequest().authenticated()
                     .and()
                     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

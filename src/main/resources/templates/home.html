@@ -1,15 +1,42 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-    <title>Spring Security Example</title>
+    <div th:replace="fragments/header::header"/>
 </head>
 <body>
-<h1>Welcome!</h1>
 
-<p>Click <a th:href="@{/students}">here</a> to see a greeting.</p>
-<h1>Below is the information had been Authenticated</h1>
-<div sec:authorize="isAuthenticated()">you had been signed in as User:<span th:text="${#authentication.name}"></span> </div>
-<div sec:authorize="isAuthenticated()">you Roles are: <span th:text="${#authentication.authorities}"></span></div>
+<div class="container">
 
+
+    <h1 th:text="${resourceList.config1}">Welcome! </h1>
+    <p>Click <a th:href="@{/students}">here</a> to see a greeting.</p>
+    <h1>Below is the information had been Authenticated</h1>
+    <div sec:authorize="isAuthenticated()">you had been signed in as User:<span
+            th:text="${#authentication.name}"></span></div>
+    <div sec:authorize="isAuthenticated()">you Roles are: <span th:text="${#authentication.authorities}"></span></div>
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+        <tr>
+            <th> Student First Name</th>
+            <th> Student Last Name</th>
+            <th> Student Email</th>
+            <th> Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="studentsMap : ${studentsMaps}">
+            <!--/*@thymesVar id="firstName" type="com.example.schoolmanagement.jpa.school.entity.Student"*/-->
+            <td th:text="${studentsMap.student.firstName}"></td>
+            <td th:text="${studentsMap.student.lastName}"></td>
+            <td th:text="${studentsMap.student.email}"></td>
+            <td>
+                <div>No Actions</div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div th:replace="fragments/footer :: footer"/>
 </body>
 </html>

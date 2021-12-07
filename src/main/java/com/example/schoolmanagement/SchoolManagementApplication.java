@@ -33,6 +33,15 @@ public class SchoolManagementApplication {
         return new ThreadPoolTaskScheduler();
     }
 
+    @Bean(name="resourceList")
+    public List<HashMap> MyConfigList()
+    {
+        List<HashMap> myConfigList = new ArrayList<>();
+        HashMap map = new HashMap();
+        map.put("config1", "value1");
+        myConfigList.add(map);
+        return myConfigList;
+    }
 
 
 }

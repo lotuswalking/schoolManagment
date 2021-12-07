@@ -6,6 +6,7 @@ import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.annotation.Resource;
@@ -21,15 +22,20 @@ public class homeController {
     @Resource(name="studentsMap")
     List<HashMap> studentsMaps;
 
+    @Resource(name="resourceList")
+    List<HashMap> resourceList;
+
     @GetMapping("/")
     public String index() {
-        return "home";
+        return "redirect:/home";
     }
     @GetMapping("/home")
-    public  String home(){
-        studentsMaps.forEach(e -> {
-            log.info(e.get("email").toString());
-        });
+    public  String home(ModelMap map){
+        map.addAttribute("studentsMaps",studentsMaps);
+        map.addAttribute("resourceList",resourceList);
+//        studentsMaps.forEach(e -> {
+//            log.info(e.get("email").toString());
+//        });
         return "home";
     }
 

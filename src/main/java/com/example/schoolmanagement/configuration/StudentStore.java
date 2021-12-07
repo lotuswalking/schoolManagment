@@ -1,6 +1,7 @@
 package com.example.schoolmanagement.configuration;
 
 import com.example.schoolmanagement.jpa.school.StudentRepository;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,7 +11,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 @Configuration
+@Log
 public class StudentStore {
     @Autowired
     StudentRepository studentRepository;
@@ -27,6 +30,7 @@ public class StudentStore {
                     return map;
                 })
                 .collect(Collectors.toList());
+        log.warning("***********there are "+studentList.size()+" students in hashMap************");
         return studentList;
 
 

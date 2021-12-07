@@ -4,6 +4,7 @@ import com.example.schoolmanagement.jpa.school.StudentRepository;
 import com.example.schoolmanagement.jpa.school.TeacherRepository;
 import com.example.schoolmanagement.jpa.school.entity.Student;
 import com.example.schoolmanagement.jpa.school.entity.Teacher;
+import com.example.schoolmanagement.jpa.schoolAdmin.StudentRepositoryDto;
 import com.example.schoolmanagement.jpa.system.*;
 import com.example.schoolmanagement.jpa.system.entity.*;
 import lombok.AllArgsConstructor;
@@ -33,6 +34,8 @@ public class MyService {
 
     private final TeacherRepository teacherRepository;
 
+    private final StudentRepositoryDto studentRepositoryDto;
+
 
     public void addRole(Long id, String roleName) {
         if (!roleRepository.existsById(id)) {
@@ -49,6 +52,14 @@ public class MyService {
             student.setLastName(lastName);
             student.setEmail(email);
             studentRepository.save(student);
+        }
+    }
+
+    public void addStudentAdmin(Student student) {
+        if (!studentRepositoryDto.existsById(student.getId())) {
+            if (!studentRepositoryDto.existsById(student.getId())) {
+                studentRepositoryDto.save(student);
+            }
         }
     }
 

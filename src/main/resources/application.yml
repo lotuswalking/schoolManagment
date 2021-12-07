@@ -17,7 +17,11 @@ school:
     url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/schooldb
     username: lijy1
     password: xsw2!QAZ
-
+schooladmin:
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/schooladmindb
+    username: lijy1
+    password: xsw2!QAZ
 #    database-platform: org.hibernate.dialect.H2Dialect
 jwt:
   secret: thisisthesecretkey

@@ -53,7 +53,10 @@ public class MyTaskScheduler {
         objects.stream()
                 .map(object -> mapper.convertValue(object,Student.class))
                 .collect(Collectors.toList())
-                .forEach(student -> myService.addStudent(student));
+                .forEach(student -> {
+                    myService.addStudent(student);
+                    myService.addStudentAdmin(student);
+                });
         log.info("*********Teacher");
         userUri = "http://localhost:"+serverPort+"/json/teachers.json";
         objects = ApiClient.exchangeObjects(userUri);
