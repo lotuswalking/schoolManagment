@@ -1,7 +1,6 @@
 package com.example.schoolmanagement.configuration;
 
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
@@ -19,20 +18,20 @@ import java.util.HashMap;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackages = "com.example.schoolmanagement.jpa.school",
-entityManagerFactoryRef = "schoolEntityManagerFactory",
-transactionManagerRef = "schoolTransactionManager")
-public class SchoolDataSourceConfig {
+@EnableJpaRepositories(basePackages = "com.example.schoolmanagement.jpa.schoolAdmin",
+entityManagerFactoryRef = "schoolAdminEntityManagerFactory",
+transactionManagerRef = "schoolAdminTransactionManager")
+public class SchoolAdminDataSourceConfig {
 
-    @Bean(name="schoolDataSourceProperties")
-    @ConfigurationProperties("school.datasource")
+    @Bean(name="schoolAdminDataSourceProperties")
+    @ConfigurationProperties("schooladmin.datasource")
     public DataSourceProperties  schoolDataSourceProperties() {
         return new DataSourceProperties();
     }
 
-    @Bean(name = "schoolDataSource")
-    @ConfigurationProperties("school.datasource.configuration")
-    public DataSource schoolDataSource(@Qualifier("schoolDataSourceProperties") DataSourceProperties schoolDataSourceProperties) {
+    @Bean(name = "schoolAdminDataSource")
+    @ConfigurationProperties("schooladmin.datasource.configuration")
+    public DataSource schoolDataSource(@Qualifier("schoolAdminDataSourceProperties") DataSourceProperties schoolDataSourceProperties) {
         return schoolDataSourceProperties.initializeDataSourceBuilder().build();
     }
 
@@ -47,13 +46,13 @@ public class SchoolDataSourceConfig {
     }
 
     private String[] packeAges() {
-        return new String[]{"com.example.schoolmanagement.jpa.school",
+        return new String[]{"com.example.schoolmanagement.jpa.schoolAdmin",
                 "com.example.schoolmanagement.jpa.school.entity"};
     }
 
-    @Bean(name = "schoolEntityManagerFactory")
+    @Bean(name = "schoolAdminEntityManagerFactory")
     public LocalContainerEntityManagerFactoryBean schoolEntityManagerFactory(
-           @Qualifier("schoolDataSource") DataSource primaryDataSource,
+           @Qualifier("schoolAdminDataSource") DataSource primaryDataSource,
            EntityManagerFactoryBuilder primaryEntityManagerFactoryBuilder) {
 
         HashMap<String, Object> properties = new HashMap<>();
@@ -66,9 +65,9 @@ public class SchoolDataSourceConfig {
     }
 
 
-    @Bean(name = "schoolTransactionManager")
+    @Bean(name = "schoolAdminTransactionManager")
     public PlatformTransactionManager schoolTransactionManager(
-            @Qualifier("schoolEntityManagerFactory") EntityManagerFactory primaryEntityManagerFactory) {
+            @Qualifier("schoolAdminEntityManagerFactory") EntityManagerFactory primaryEntityManagerFactory) {
 
         return new JpaTransactionManager(primaryEntityManagerFactory);
     }
