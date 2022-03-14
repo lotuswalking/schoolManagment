@@ -35,23 +35,6 @@ public class JwtFilter extends OncePerRequestFilter {
         String referAddr = request.getHeader("Referer");
         String requestMethod = request.getMethod();
         Cookie[] cookies = request.getCookies();
-//        if (cookies != null) {
-//            for( Cookie cookie : cookies)  {
-//                log.info("Cookie name: "+ cookie.getName() +" cookie valueL " + cookie.getValue());
-//                if("password".equalsIgnoreCase(cookie.getName())) {
-//                    String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
-//                    if(username != null && !username.equals("anonymousUser")) {
-//                        UserDetails userDetails
-//                                = userService.loadUserByUsername(username);
-//                        String jwtToken = jwtUtility.generateToken(userDetails);
-//                        response.setHeader("Authorization",jwtToken);
-//                    }
-//
-//                }
-//            }
-//        }
-
-
         if(requestMethod.equalsIgnoreCase("post") && referAddr.endsWith("/login")) {
             String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
             UserDetails userDetails

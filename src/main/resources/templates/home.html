@@ -9,7 +9,6 @@
 <div class="container">
 
 
-    <h1 th:text="${resourceList.config1}">Welcome! </h1>
     <p>Click <a th:href="@{/students}">here</a> to see a greeting.</p>
     <h1>Below is the information had been Authenticated</h1>
     <div sec:authorize="isAuthenticated()">you had been signed in as User:<span
