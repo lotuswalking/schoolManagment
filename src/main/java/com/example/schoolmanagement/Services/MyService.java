@@ -65,78 +65,81 @@ public class MyService {
 
     public void addStudent(Student student) {
         if (!studentRepository.existsById(student.getId())) {
-            if (!studentRepository.existsById(student.getId())) {
-                studentRepository.save(student);
-            }
+            studentRepository.save(student);
+
         }
     }
-        public void addTeacher (Teacher teacher){
-            if (!teacherRepository.existsById(teacher.getId())) {
-                teacherRepository.save(teacher);
-            }
+
+    public void addTeacher(Teacher teacher) {
+        if (!teacherRepository.existsById(teacher.getId())) {
+            teacherRepository.save(teacher);
         }
+    }
 
-        public void addUser (Long id, String username){
-            if (!userRepository.existsById(id)) {
-                User user = new User();
-                user.setUserId(id);
-                user.setUsername(username);
-                user.setActiveFlag(true);
-                user.setAuthorized(true);
-                user.setEffectiveData(LocalDate.now());
-                user.setExpiryDate(LocalDate.now().plusYears(1));
-                userRepository.save(user);
-
-            }
-        }
-        public void mapGroupToRole (Long id, String groupName, String roleName){
-
-            if (!groupPrivilegeRepository.existsById(id)) {
-                Group group = groupRepository.findByGroupName(groupName);
-                Role role = roleRepository.findByRoleName(roleName);
-                GroupPrivilege groupPrivilege = new GroupPrivilege();
-                groupPrivilege.setGroupPrivilegeId(id);
-                groupPrivilege.setRole(role);
-                groupPrivilege.setActiveFlag(true);
-                groupPrivilege.setEffectiveDate(LocalDate.now());
-                groupPrivilege.setExpiryDate(LocalDate.now().plusMonths(6));
-                groupPrivilege.setGroup(group);
-                groupPrivilegeRepository.save(groupPrivilege);
-            }
+    public void addUser(Long id, String username) {
+        if (!userRepository.existsById(id)) {
+            User user = new User();
+            user.setUserId(id);
+            user.setUsername(username);
+            user.setActiveFlag(true);
+            user.setAuthorized(true);
+            user.setEffectiveData(LocalDate.now());
+            user.setExpiryDate(LocalDate.now().plusYears(1));
+            userRepository.save(user);
 
         }
-        public void mapUserToGroup (Long id, String username, String groupName){
-            if (!userMembershipRepository.existsById(id)) {
-                Group group = groupRepository.findByGroupName(groupName);
-                User user = userRepository.findByUsername(username);
-                UserMembership userMembership = new UserMembership();
-                userMembership.setUserMembershipId(id);
-                userMembership.setUser(user);
-                userMembership.setGroup(group);
-                userMembership.setActiveFlag(true);
-                userMembership.setEffectiveDate(LocalDate.now());
-                userMembership.setExpiryDate(LocalDate.now().plusMonths(6));
-                userMembershipRepository.save(userMembership);
-            }
+    }
+
+    public void mapGroupToRole(Long id, String groupName, String roleName) {
+
+        if (!groupPrivilegeRepository.existsById(id)) {
+            Group group = groupRepository.findByGroupName(groupName);
+            Role role = roleRepository.findByRoleName(roleName);
+            GroupPrivilege groupPrivilege = new GroupPrivilege();
+            groupPrivilege.setGroupPrivilegeId(id);
+            groupPrivilege.setRole(role);
+            groupPrivilege.setActiveFlag(true);
+            groupPrivilege.setEffectiveDate(LocalDate.now());
+            groupPrivilege.setExpiryDate(LocalDate.now().plusMonths(6));
+            groupPrivilege.setGroup(group);
+            groupPrivilegeRepository.save(groupPrivilege);
         }
 
-        public void addGroup (Long id, String groupName){
-            if (!groupRepository.existsById(id)) {
-                Group group = new Group();
-                group.setGroupId(id);
-                group.setGroupName(groupName);
-                groupRepository.save(group);
-            }
+    }
+
+    public void mapUserToGroup(Long id, String username, String groupName) {
+        if (!userMembershipRepository.existsById(id)) {
+            Group group = groupRepository.findByGroupName(groupName);
+            User user = userRepository.findByUsername(username);
+            UserMembership userMembership = new UserMembership();
+            userMembership.setUserMembershipId(id);
+            userMembership.setUser(user);
+            userMembership.setGroup(group);
+            userMembership.setActiveFlag(true);
+            userMembership.setEffectiveDate(LocalDate.now());
+            userMembership.setExpiryDate(LocalDate.now().plusMonths(6));
+            userMembershipRepository.save(userMembership);
         }
-        public void addTeacher (Long id, String firstName, String lastName, String email){
-            if (!teacherRepository.existsById(id)) {
-                Teacher teacher = new Teacher();
+    }
+
+    public void addGroup(Long id, String groupName) {
+        if (!groupRepository.existsById(id)) {
+            Group group = new Group();
+            group.setGroupId(id);
+            group.setGroupName(groupName);
+            groupRepository.save(group);
+        }
+    }
+
+    public void addTeacher(Long id, String firstName, String lastName, String email) {
+        if (!teacherRepository.existsById(id)) {
+            Teacher teacher = new Teacher();
 //            teacher.setId(id);
-                teacher.setFirstName(firstName);
-                teacher.setEmail(email);
-                teacher.setLastName(lastName);
-                teacherRepository.save(teacher);
-            }
+            teacher.setFirstName(firstName);
+            teacher.setEmail(email);
+            teacher.setLastName(lastName);
+            teacherRepository.save(teacher);
         }
     }
+}
 
