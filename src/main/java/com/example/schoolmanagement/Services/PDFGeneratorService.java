@@ -93,7 +93,7 @@ public class PDFGeneratorService {
         // add an image, scale it down by half, and put at an absolute position
         try {
             Image simple = Image.getInstance("src/main/resources/luban.png");
-            simple.setAbsolutePosition(0, 0);
+//            simple.setAbsolutePosition(0, 0);
             simple.scalePercent(50);
             document.add(simple);
         } catch (Exception ex) {
@@ -101,7 +101,7 @@ public class PDFGeneratorService {
         }
 
         // start second page
-        document.newPage();
+//        document.newPage();
 
         Font fontTitle = FontFactory.getFont(FontFactory.HELVETICA);
         fontTitle.setSize(18);
