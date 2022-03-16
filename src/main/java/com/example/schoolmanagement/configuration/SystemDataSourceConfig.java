@@ -35,7 +35,7 @@ import java.util.HashMap;
         transactionManagerRef = "systemTransactionManager")                 //关联下文中的Bean,将systemEntityManagerFactory送到JPA
 public class SystemDataSourceConfig {
 
-    private String[] packeAges= {"com.example.schoolmanagement.repo.system",
+    private final String[] packeAges= {"com.example.schoolmanagement.repo.system",
             "com.example.schoolmanagement.jpa.system.entity"};
 
     @Bean(name="systemDataSourceProperties")

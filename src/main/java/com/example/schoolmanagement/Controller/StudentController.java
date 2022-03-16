@@ -5,13 +5,15 @@ import com.example.schoolmanagement.jpa.school.entity.Student;
 import com.example.schoolmanagement.jpa.system.entity.User;
 import com.example.schoolmanagement.jpa.school.StudentRepository;
 import com.example.schoolmanagement.jpa.system.UserRepository;
+import com.lowagie.text.Document;
+import com.lowagie.text.PageSize;
+import com.lowagie.text.pdf.PdfWriter;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -57,6 +59,11 @@ public class StudentController {
         List<Student> students = studentRepository.findAll();
 
         pdfGeneratorService.export(response,students);
+//        Document doc = new Document(PageSize.A4);
+//        doc.open();
+//        PdfWriter.getInstance(doc,response.getOutputStream());
+//        pdfGeneratorService.reportToDocument(doc,students);
+//        doc.close();
 
         //        return "test";
     }
