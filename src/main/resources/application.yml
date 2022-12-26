@@ -3,7 +3,7 @@ spring:
     url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/securitydb
 #    url: jdbc:h2:mem:schoolDb
     username: root
-    password: 123456
+    password:
   jpa:
     hibernate.hbm2ddl.auto: update
     open-in-view: false
@@ -13,7 +13,7 @@ school:
   datasource:
     url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/schooldb
     username: root
-    password: 123456
+    password:
 
 #    database-platform: org.hibernate.dialect.H2Dialect
 
